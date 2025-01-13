@@ -4,24 +4,23 @@ import tkinter
 
 import tkintertools as tkt
 import tkintertools.core.configs as configs
-import tkintertools.core.constants as constants
 import tkintertools.core.virtual as virtual
 import tkintertools.standard.widgets as widgets
 import tkintertools.toolbox as toolbox
 
 if toolbox.load_font("designer/assets/fonts/LXGWWenKai.ttf"):
-    constants.FONT = "LXGW WenKai"
+    configs.Font.family = "LXGW WenKai"
 
 
-class MenuBar(tkt.Frame):
+class MenuBar(tkt.Canvas):
     """Menu bar"""
 
     def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, name=tkt.Frame, height=50, **kwargs)
+        super().__init__(*args, height=50, **kwargs)
 
-        self.main_area = tkt.Frame(self, height=50)
+        self.main_area = tkt.Canvas(self, height=50)
         self.main_area.pack(side="left", fill="x", expand=True)
-        self.operation_area = tkt.Frame(self, width=200, height=50)
+        self.operation_area = tkt.Canvas(self, width=200, height=50)
         self.operation_area.pack(side="right")
 
         self.btn_file = tkt.Button(
@@ -43,22 +42,22 @@ class MenuBar(tkt.Frame):
                    text="\ue768", anchor="e")
 
 
-class StatusBar(tkt.Frame):
+class StatusBar(tkt.Canvas):
     """Status Bar"""
 
     def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, name=tkt.Frame, height=30, **kwargs)
+        super().__init__(*args, height=30, **kwargs)
 
 
-class SideBar(tkt.Frame):
+class SideBar(tkt.Canvas):
     """Side Bar"""
 
     def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, name=tkt.Frame, width=70, **kwargs)
+        super().__init__(*args, width=70, **kwargs)
 
-        self.main_area = tkt.Frame(self, width=70)
+        self.main_area = tkt.Canvas(self, width=70)
         self.main_area.pack(side="top", fill="y", expand=True)
-        self.config_area = tkt.Frame(self, width=70, height=130)
+        self.config_area = tkt.Canvas(self, width=70, height=130)
         self.config_area.pack(side="bottom")
 
         tkt.SegmentedButton(
@@ -71,7 +70,7 @@ class SideBar(tkt.Frame):
                    (50, 50), text="\ue713", fontsize=24)
 
 
-def gen_drag_feature(widget: virtual.Widget) -> virtual.Feature:
+def gen_drag_feature(widget: virtual.Widget) -> type[virtual.Feature]:
     """Generate a special Feature class"""
 
     class DragFeature(widget.feature.__class__):
@@ -85,17 +84,17 @@ def gen_drag_feature(widget: virtual.Widget) -> virtual.Feature:
         def _button_1(self, event: tkinter.Event) -> bool:
             if self.widget.detect(event.x, event.y):
                 self.x, self.y = event.x, event.y
-            return getattr(super(), "_button_1", configs.Env.default_callback)(event)
+            return getattr(super(), "_button_1", lambda _: False)(event)
 
         def _b_1_motion(self, event: tkinter.Event) -> bool:
             if self.x is not None:
                 self.widget.move(event.x - self.x, event.y - self.y)
                 self.x, self.y = event.x, event.y
-            return getattr(super(), "_b_1_motion", configs.Env.default_callback)(event)
+            return getattr(super(), "_b_1_motion", lambda _: False)(event)
 
         def _button_release_1(self, event: tkinter.Event) -> bool:
             self.x = self.y = None
-            return getattr(super(), "_button_release_1", configs.Env.default_callback)(event)
+            return getattr(super(), "_button_release_1", lambda _: False)(event)
 
     return DragFeature
 
@@ -115,17 +114,17 @@ class App(tkt.Tk):
         self.side_bar = SideBar(self)
         self.side_bar.pack(side="left", fill="y")
 
-        self.main_area = tkt.Frame(self, name=tkt.Canvas)
+        self.main_area = tkt.Canvas(self)
         self.main_area.pack(fill="both", expand=True)
 
-        self.tree_area = tkt.Frame(self.main_area, width=360, name=tkt.Canvas)
+        self.tree_area = tkt.Canvas(self.main_area, width=360)
         self.tree_area.pack(side="left", fill="y")
 
-        self.work_area = tkt.Frame(
-            self.main_area, name="", bg="black", highlightthickness=0)
+        self.work_area = tkt.Canvas(
+            self.main_area, bg="black", highlightthickness=0)
         self.work_area.pack(side="right", fill="both", expand=True)
 
-        self.window = tkt.Frame(
+        self.window = tkt.Canvas(
             self.work_area, width=1280, height=720, expand="")
         self.window.place(x=50, y=50)
 
@@ -141,8 +140,8 @@ if __name__ == "__main__":
         "Switch",
         "InputBox",
         "ToggleButton",
-        "CheckButton",
-        "RadioButton",
+        "CheckBox",
+        "RadioBox",
         "ProgressBar",
         # "UnderlineButton",
         # "HighlightButton",
@@ -151,6 +150,7 @@ if __name__ == "__main__":
         "SegmentedButton",
         "SpinBox",
         # "Tooltip",
+        "Spinner"
     ]
 
     for i, widget_name in enumerate(widget_list):
@@ -160,6 +160,6 @@ if __name__ == "__main__":
         except TypeError:
             widget = getattr(widgets, widget_name)(
                 app.window, (20, 20 + 50*i))
-        gen_drag_feature(widget)(widget)
+        widget.feature = gen_drag_feature(widget)(widget)
 
     app.mainloop()
