@@ -1,13 +1,13 @@
 import tkinter
 import types
 
-import tkintertools as tkt
-import tkintertools.core.virtual as virtual
-import tkintertools.standard.features as features
-import tkintertools.standard.widgets as widgets
+import maliang
+import maliang.core.virtual as virtual
+import maliang.standard.features as features
+import maliang.standard.widgets as widgets
 
-# root = tkt.Tk()
-# canvas = tkt.Canvas(root)
+# root = maliang.Tk()
+# canvas = maliang.Canvas(root)
 # canvas.place(width=1280, height=720)
 
 

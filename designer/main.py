@@ -2,72 +2,72 @@
 
 import tkinter
 
-import tkintertools as tkt
-import tkintertools.core.configs as configs
-import tkintertools.core.virtual as virtual
-import tkintertools.standard.widgets as widgets
-import tkintertools.toolbox as toolbox
+import maliang
+import maliang.core.configs as configs
+import maliang.core.virtual as virtual
+import maliang.standard.widgets as widgets
+import maliang.toolbox as toolbox
 
 if toolbox.load_font("designer/assets/fonts/LXGWWenKai.ttf"):
     configs.Font.family = "LXGW WenKai"
 
 
-class MenuBar(tkt.Canvas):
+class MenuBar(maliang.Canvas):
     """Menu bar"""
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, height=50, **kwargs)
 
-        self.main_area = tkt.Canvas(self, height=50)
+        self.main_area = maliang.Canvas(self, height=50)
         self.main_area.pack(side="left", fill="x", expand=True)
-        self.operation_area = tkt.Canvas(self, width=200, height=50)
+        self.operation_area = maliang.Canvas(self, width=200, height=50)
         self.operation_area.pack(side="right")
 
-        self.btn_file = tkt.Button(
+        self.btn_file = maliang.Button(
             self.main_area, (5, 25), text="File(F)", anchor="w")
         _x = self.btn_file.position[0] + self.btn_file.size[0] + 5
-        self.btn_edit = tkt.Button(
+        self.btn_edit = maliang.Button(
             self.main_area, (_x, 25), text="Edit(E)", anchor="w")
         _x = self.btn_edit.position[0] + self.btn_edit.size[0] + 5
-        self.btn_select = tkt.Button(
+        self.btn_select = maliang.Button(
             self.main_area, (_x, 25), text="Select(S)", anchor="w")
         _x = self.btn_select.position[0] + self.btn_select.size[0] + 5
-        self.btn_view = tkt.Button(
+        self.btn_view = maliang.Button(
             self.main_area, (_x, 25), text="View(V)", anchor="w")
         _x = self.btn_view.position[0] + self.btn_view.size[0] + 5
-        self.btn_help = tkt.Button(
+        self.btn_help = maliang.Button(
             self.main_area, (_x, 25), text="Help(H)", anchor="w")
 
-        tkt.Button(self.operation_area, (195, 25), (40, 40),
-                   text="\ue768", anchor="e")
+        maliang.Button(self.operation_area, (195, 25), (40, 40),
+                       text="\ue768", anchor="e")
 
 
-class StatusBar(tkt.Canvas):
+class StatusBar(maliang.Canvas):
     """Status Bar"""
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, height=30, **kwargs)
 
 
-class SideBar(tkt.Canvas):
+class SideBar(maliang.Canvas):
     """Side Bar"""
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, width=70, **kwargs)
 
-        self.main_area = tkt.Canvas(self, width=70)
+        self.main_area = maliang.Canvas(self, width=70)
         self.main_area.pack(side="top", fill="y", expand=True)
-        self.config_area = tkt.Canvas(self, width=70, height=130)
+        self.config_area = maliang.Canvas(self, width=70, height=130)
         self.config_area.pack(side="bottom")
 
-        tkt.SegmentedButton(
+        maliang.SegmentedButton(
             self.main_area, (5, 1), ((50, 50),)*4, layout="vertical",
             text=("\uec50", "\ue721", "\uea86", "\ue74c"), fontsize=24)
 
-        tkt.Button(self.config_area, (10, 15),
-                   (50, 50), text="\ue77b", fontsize=24)
-        tkt.Button(self.config_area, (10, 75),
-                   (50, 50), text="\ue713", fontsize=24)
+        maliang.Button(self.config_area, (10, 15),
+                       (50, 50), text="\ue77b", fontsize=24)
+        maliang.Button(self.config_area, (10, 75),
+                       (50, 50), text="\ue713", fontsize=24)
 
 
 def gen_drag_feature(widget: virtual.Widget) -> type[virtual.Feature]:
@@ -99,7 +99,7 @@ def gen_drag_feature(widget: virtual.Widget) -> type[virtual.Feature]:
     return DragFeature
 
 
-class App(tkt.Tk):
+class App(maliang.Tk):
     """"""
 
     def __init__(self, *args, **kwargs) -> None:
@@ -114,23 +114,23 @@ class App(tkt.Tk):
         self.side_bar = SideBar(self)
         self.side_bar.pack(side="left", fill="y")
 
-        self.main_area = tkt.Canvas(self)
+        self.main_area = maliang.Canvas(self)
         self.main_area.pack(fill="both", expand=True)
 
-        self.tree_area = tkt.Canvas(self.main_area, width=360)
+        self.tree_area = maliang.Canvas(self.main_area, width=360)
         self.tree_area.pack(side="left", fill="y")
 
-        self.work_area = tkt.Canvas(
+        self.work_area = maliang.Canvas(
             self.main_area, bg="black", highlightthickness=0)
         self.work_area.pack(side="right", fill="both", expand=True)
 
-        self.window = tkt.Canvas(
+        self.window = maliang.Canvas(
             self.work_area, width=1280, height=720, expand="")
         self.window.place(x=50, y=50)
 
 
 if __name__ == "__main__":
-    app = App(size=(1600, 900), title="tkintertools designer v0.0.1")
+    app = App(size=(1600, 900), title="Magic Brush v0.0.1")
 
     widget_list = [
         "Text",

@@ -1,4 +1,4 @@
-"""Designer software of tkintertools"""
+"""Official designer software of `maliang` for visualize development."""
 
 # MIT License
 
