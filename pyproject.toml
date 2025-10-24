@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "brush"
+authors = [{ name = "Xiaokang2022" }, { email = "2951256653@qq.com" }]
+maintainers = [{ name = "Xiaokang2022" }, { email = "2951256653@qq.com" }]
+description = "Official designer software of maliang for visualize development."
+readme = "README.md"
+license = { text = "GPL-3.0-only" }
+dynamic = ["version"]
+requires-python = ">=3.10"
+dependencies = [
+    "maliang",
+]
+
+[tool.setuptools.dynamic]
+version = { attr = "designer.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["designer*"]
