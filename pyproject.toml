@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "brush"
 authors = [{ name = "Xiaokang2022" }, { email = "2951256653@qq.com" }]
 maintainers = [{ name = "Xiaokang2022" }, { email = "2951256653@qq.com" }]
-description = "Official designer software of `maliang` for visualize development."
+description = "Official designer software of maliang for visualize development."
 readme = "README.md"
 license = { text = "GPL-3.0-only" }
 dynamic = ["version"]
